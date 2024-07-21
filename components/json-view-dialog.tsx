@@ -44,9 +44,9 @@ export function JsonViewDialog({
             {JSON.stringify(anyObject, null, "\t")}
           </pre>
           {isCopied ? (
-            <CheckIcon className=" bg-background absolute top-0 w-4 h-4 right-0 m-4 group-hover:opacity-100 opacity-0 text-foreground" />
+            <CheckIcon className="absolute top-0 w-4 h-4 right-0 m-4 group-hover:opacity-100 opacity-0 text-foreground" />
           ) : (
-            <ClipboardIcon className="bg-background absolute top-0 w-4 h-4 right-0 m-4 group-hover:opacity-100 opacity-0 text-foreground" />
+            <ClipboardIcon className="absolute top-0 w-4 h-4 right-0 m-4 group-hover:opacity-100 opacity-0 text-foreground" />
           )}
         </button>
         <AlertDialogFooter>

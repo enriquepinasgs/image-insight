@@ -6,7 +6,7 @@ import { AuroraBackground } from "@/components/ui/aurora-background";
 export default function Home() {
   return (
     <AuroraBackground>
-      <main className="min-h-screen grid grid-cols-2 gap-12 px-8 relative ">
+      <main className="min-h-screen flex flex-col md:grid md:grid-cols-2 gap-12 px-8 relative ">
         <OpenAIApiKeyDialog classname="absolute top-0 right-0 m-6 " />
         <div className="flex items-center flex-col justify-center gap-8 ">
           <AppInfo />
