@@ -8,6 +8,7 @@ import { CheckIcon, ClipboardIcon, Loader2Icon } from "lucide-react";
 import { useCallback } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
+import { Icons } from "./icons";
 import { JsonViewDialog } from "./json-view-dialog";
 import { InsightFormSchema, SubmitForm } from "./submit-form";
 import { Separator } from "./ui/separator";
@@ -56,7 +57,8 @@ export default function RequestCard() {
   const submit = useCallback(requestInsight, [requestInsight]);
 
   return (
-    <div className="border bg-stone-50 rounded-lg w-full flex max-w-2xl flex-col gap-2 p-4 h-min shadow-lg">
+    <div className="border bg-stone-50 rounded-lg w-full flex max-w-2xl flex-col gap-2 p-4 h-min shadow-lg relative">
+      <Icons.tryItNow className="absolute top-0 left-0 w-48 -mt-16 -ml-24 " />
       <div className="flex gap-4">
         <span className="text-accent bg-gray-600 px-2 py-0.5 border rounded-[8px] font-medium">
           GET
