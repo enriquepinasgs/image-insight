@@ -22,59 +22,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useGetImageInsight } from "@/hooks/api-hook";
-import { OutputSchema } from "@/lib/image.types";
-import { useApiKeyStore } from "@/store/apikey-store";
-import { useImageInsightStore } from "@/store/image-insight-store";
 import { SparklesIcon } from "lucide-react";
-import { toast } from "sonner";
 
-const FormSchema = z.object({
+export const InsightFormSchema = z.object({
   imageUrl: z.string().url(),
   language: z.string(),
 });
 
-export function SubmitForm() {
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+export function SubmitForm({
+  onSubmit,
+  disabled = false,
+}: {
+  onSubmit: (data: z.infer<typeof InsightFormSchema>) => void;
+  disabled?: boolean;
+}) {
+  const form = useForm<z.infer<typeof InsightFormSchema>>({
+    resolver: zodResolver(InsightFormSchema),
     defaultValues: { language: "spanish", imageUrl: "" },
   });
-  const { setInsight } = useImageInsightStore((state) => ({
-    setInsight: state.setInsight,
-  }));
-  const { mutate } = useGetImageInsight();
-
-  const { currentApiKey, openModal } = useApiKeyStore((state) => ({
-    currentApiKey: state.apiKey,
-    openModal: state.setModalIsOpen,
-  }));
-
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    if (currentApiKey === undefined) {
-      openModal(true);
-      return;
-    }
-    mutate(
-      {
-        imageUrl: data.imageUrl,
-        language: form.getValues("language"),
-        apiKey: currentApiKey,
-      },
-      {
-        onSuccess: (data) => {
-          console.log(data.data);
-          try {
-            const output = OutputSchema.parse(data.data);
-            setInsight(output);
-            toast.success("Succesfully generated insight");
-          } catch {
-            toast.error("There was a problem with your request");
-          }
-        },
-      }
-    );
-  }
-
   return (
     <Form {...form}>
       <form
@@ -82,6 +47,7 @@ export function SubmitForm() {
         className="flex gap-2 w-full "
       >
         <FormField
+          disabled={disabled}
           control={form.control}
           name="imageUrl"
           render={({ field }) => (
@@ -99,7 +65,11 @@ export function SubmitForm() {
           name="language"
           render={({ field }) => (
             <FormItem className=" ">
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select
+                disabled={disabled}
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+              >
                 <FormControl>
                   <SelectTrigger className="w-min">
                     <SelectValue placeholder="Select a language" />
@@ -113,12 +83,11 @@ export function SubmitForm() {
                   </SelectGroup>
                 </SelectContent>
               </Select>
-
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button className="gap-2">
+        <Button disabled={disabled} className="gap-2">
           <span>Analyze</span> <SparklesIcon className="w-4 h-4"></SparklesIcon>
         </Button>
       </form>
