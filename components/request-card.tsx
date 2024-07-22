@@ -2,6 +2,7 @@
 import { useGetImageInsight } from "@/hooks/api-hook";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { OutputSchema } from "@/lib/image.types";
+import { getServerURL } from "@/lib/server";
 import { useApiKeyStore } from "@/store/apikey-store";
 import { useImageInsightStore } from "@/store/image-insight-store";
 import { CheckIcon, ClipboardIcon, Loader2Icon } from "lucide-react";
@@ -50,6 +51,9 @@ export default function RequestCard() {
             toast.error("There was a problem with your request");
           }
         },
+        onError: () => {
+          toast.error("There was a problem with your request");
+        },
       }
     );
     setIsLoading(false);
@@ -64,7 +68,7 @@ export default function RequestCard() {
           GET
         </span>
         <p className="text-foreground/80 line-clamp-1">
-          http://localhost/api/analyze-image/
+          {getServerURL()}/api/analyze-image/
         </p>
       </div>
       <div className="flex items-center justify-center gap-2 w-full ">
@@ -88,7 +92,7 @@ export default function RequestCard() {
             <Separator decorative={true} />
             <div className="flex items-center">
               <div className="flex flex-col w-min p-2 text-foregroun">
-                <span className="text-lg font-medium">Main colors</span>
+                <span className="text-lg font-medium">Primary colors</span>
                 <div className="flex w-min [&>*:last-child]:rounded-r-md [&>*:first-child]:rounded-l-md">
                   {insight.mainColors.map((color, idx) => (
                     <ColorCard key={idx} color={color} />
@@ -120,9 +124,9 @@ function TextCard({ title, text }: { title: string; text: string }) {
       className="group relative text-start flex flex-col w-full p-2 text-foregroun"
     >
       {isCopied ? (
-        <CheckIcon className="bg-background absolute top-0 w-4 h-4 right-0 m-4 group-hover:opacity-100 opacity-0 text-foreground" />
+        <CheckIcon className="absolute top-0 w-4 h-4 right-0 m-4 group-hover:opacity-100 opacity-0 text-foreground" />
       ) : (
-        <ClipboardIcon className="bg-background absolute top-0 w-4 h-4 right-0 m-4 group-hover:opacity-100 opacity-0 text-foreground" />
+        <ClipboardIcon className="absolute top-0 w-4 h-4 right-0 m-4 group-hover:opacity-100 opacity-0 text-foreground" />
       )}
       <span className="text-lg font-medium">{title}</span>
       <p className="text-pretty">{text}</p>
