@@ -82,7 +82,8 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 ## Technologies Used
 
 - **Next.js 14**: A React framework for production.
-- **Vercel AI SDK**: Provides AI capabilities to enhance your application.
+- **Vercel AI SDK**: We use the Vercel AI SDK to interact with advanced AI models. Specifically, we utilize the `generateObject` function to generate structured insights from the image data.
+- **Zod**: For schema validation, we use Zod to ensure that the output from OpenAI adheres to a predefined structure, providing reliability and consistency in the API responses.
 - **Tailwind CSS**: A utility-first CSS framework for styling.
 - **Lucide Icons**: A library of beautiful, open-source icons.
 
