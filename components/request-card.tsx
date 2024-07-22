@@ -54,9 +54,11 @@ export default function RequestCard() {
         onError: () => {
           toast.error("There was a problem with your request");
         },
+        onSettled: () => {
+          setIsLoading(false);
+        },
       }
     );
-    setIsLoading(false);
   }
   const submit = useCallback(requestInsight, [requestInsight]);
 
