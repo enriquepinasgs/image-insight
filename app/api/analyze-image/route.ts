@@ -4,6 +4,10 @@ import { createOpenAI } from "@ai-sdk/openai";
 import { generateObject } from "ai";
 import { NextRequest, NextResponse } from "next/server";
 
+export const config = {
+  maxDuration: 30,
+};
+
 export async function GET(request: NextRequest) {
   const imageUrl = request.nextUrl.searchParams.get("image_url") as string;
   const language = request.nextUrl.searchParams.get("language") as string;
