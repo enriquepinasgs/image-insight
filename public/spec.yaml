@@ -1,0 +1,114 @@
+openapi: 3.0.0
+info:
+  title: ImageInsight API
+  version: 1.0.0
+  description: >
+    ImageInsight is a versatile API designed to effortlessly extract essential information from images. 
+    Using vercel ai sdk, AI analyze the provided image URL to generate a detailed caption, 
+    a comprehensive description, and identify the primary color palette. 
+    Users can choose to receive the output in either English or Spanish, 
+    making it an ideal solution for developers looking to integrate robust 
+    image analysis capabilities into their applications.
+
+servers:
+  - url: https://image-insight-six.vercel.app
+    description: Production server
+
+paths:
+  /api/analyze-image:
+    get:
+      tags:
+        - Image
+      summary: Analyze an image and get detailed insights
+      description: >
+        This endpoint analyzes an image by its URL and returns essential insights such as 
+        primary color palette, a descriptive caption, and a comprehensive description.
+      parameters:
+        - name: image_url
+          in: query
+          required: true
+          description: The URL of the image to be analyzed.
+          schema:
+            type: string
+            format: uri
+            example: "https://example.com/path/to/image.jpg"
+        - name: language
+          in: query
+          required: true
+          description: The language for the output. Possible values are `english` and `spanish`.
+          schema:
+            type: string
+            enum: [english, spanish]
+            example: "english"
+      responses:
+        "200":
+          description: Successful response with image insights
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mainColors:
+                    type: array
+                    items:
+                      type: string
+                      format: hex
+                      description: Hex code of the primary color
+                    example:
+                      ["#3a4c5e", "#d9e1e5", "#7d8a96", "#bfc8d1", "#ffffff"]
+                  caption:
+                    type: string
+                    description: A descriptive caption for the image
+                    example: "Aerial view of a cityscape with modern buildings and a river running through the city."
+                  description:
+                    type: string
+                    description: A comprehensive description of the image content
+                    example: "The image shows an aerial view of a bustling cityscape featuring modern skyscrapers and buildings. A river can be seen running through the city, reflecting the surrounding architecture."
+        "400":
+          description: Bad request due to missing or invalid parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Invalid image_url parameter"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "An internal server error occurred"
+      security:
+        - ApiKeyAuth: []
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-OpenAI-ApiKey
+  schemas:
+    ImageInsightResponse:
+      type: object
+      properties:
+        mainColors:
+          type: array
+          items:
+            type: string
+            format: hex
+            description: Hex code of the primary color
+          example: ["#3a4c5e", "#d9e1e5", "#7d8a96", "#bfc8d1", "#ffffff"]
+        caption:
+          type: string
+          description: A descriptive caption for the image
+          example: "Aerial view of a cityscape with modern buildings and a river running through the city."
+        description:
+          type: string
+          description: A comprehensive description of the image content
+          example: "The image shows an aerial view of a bustling cityscape featuring modern skyscrapers and buildings. A river can be seen running through the city, reflecting the surrounding architecture."

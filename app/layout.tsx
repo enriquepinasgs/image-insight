@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn("overflow-hidden relative", inter.className)}>
+      <body className={cn("overflow-auto relative", inter.className)}>
         <ReactQueryProvider>
           {children}
           <Footer classname="absolute bottom-0 right-0 mr-2" />
