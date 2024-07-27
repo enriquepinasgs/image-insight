@@ -79,7 +79,7 @@ export function SubmitForm({
                   <SelectGroup>
                     <SelectLabel>Language</SelectLabel>
                     <SelectItem value="spanish">Spanish</SelectItem>
-                    <SelectItem value="english">Engish</SelectItem>
+                    <SelectItem value="english">English</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
